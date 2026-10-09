@@ -1,0 +1,17 @@
+{
+"type": "FeatureCollection",
+"name": "settlements",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "id": "S01", "name": "Trishuli Valley", "latitude": 27.8021, "longitude": 85.1432, "population": 12500, "elevation_m": 620.0, "slope_deg": 8.5 }, "geometry": { "type": "Point", "coordinates": [ 85.1432, 27.8021 ] } },
+{ "type": "Feature", "properties": { "id": "S02", "name": "Dhading Ridge", "latitude": 27.8745, "longitude": 85.0214, "population": 8400, "elevation_m": 1420.0, "slope_deg": 18.2 }, "geometry": { "type": "Point", "coordinates": [ 85.0214, 27.8745 ] } },
+{ "type": "Feature", "properties": { "id": "S03", "name": "Nuwakot Hilltop", "latitude": 27.915, "longitude": 85.167, "population": 6200, "elevation_m": 1780.0, "slope_deg": 24.0 }, "geometry": { "type": "Point", "coordinates": [ 85.167, 27.915 ] } },
+{ "type": "Feature", "properties": { "id": "S04", "name": "Langtang Foothills", "latitude": 27.985, "longitude": 85.312, "population": 3100, "elevation_m": 2850.0, "slope_deg": 38.5 }, "geometry": { "type": "Point", "coordinates": [ 85.312, 27.985 ] } },
+{ "type": "Feature", "properties": { "id": "S05", "name": "Melamchi Basin", "latitude": 27.831, "longitude": 85.578, "population": 7800, "elevation_m": 890.0, "slope_deg": 12.0 }, "geometry": { "type": "Point", "coordinates": [ 85.578, 27.831 ] } },
+{ "type": "Feature", "properties": { "id": "S06", "name": "Helambu Highland", "latitude": 27.962, "longitude": 85.495, "population": 2400, "elevation_m": 3120.0, "slope_deg": 41.2 }, "geometry": { "type": "Point", "coordinates": [ 85.495, 27.962 ] } },
+{ "type": "Feature", "properties": { "id": "S07", "name": "Sundarijal Outpost", "latitude": 27.765, "longitude": 85.421, "population": 4500, "elevation_m": 1550.0, "slope_deg": 19.8 }, "geometry": { "type": "Point", "coordinates": [ 85.421, 27.765 ] } },
+{ "type": "Feature", "properties": { "id": "S08", "name": "Chautara Summit", "latitude": 27.778, "longitude": 85.714, "population": 9200, "elevation_m": 1620.0, "slope_deg": 22.4 }, "geometry": { "type": "Point", "coordinates": [ 85.714, 27.778 ] } },
+{ "type": "Feature", "properties": { "id": "S09", "name": "Bahrabise Gorge", "latitude": 27.792, "longitude": 85.895, "population": 5600, "elevation_m": 980.0, "slope_deg": 33.0 }, "geometry": { "type": "Point", "coordinates": [ 85.895, 27.792 ] } },
+{ "type": "Feature", "properties": { "id": "S10", "name": "Gosaikunda Pass Junction", "latitude": 27.995, "longitude": 85.215, "population": 1200, "elevation_m": 3190.0, "slope_deg": 39.7 }, "geometry": { "type": "Point", "coordinates": [ 85.215, 27.995 ] } }
+]
+}

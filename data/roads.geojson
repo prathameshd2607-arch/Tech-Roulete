@@ -1,0 +1,25 @@
+{
+"type": "FeatureCollection",
+"name": "roads",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "source_id": "S01", "target_id": "S10", "road_type": "PRIMARY", "length_km": 27.68, "status": "ACCESSIBLE", "max_speed_kmh": 60.0 }, "geometry": { "type": "LineString", "coordinates": [ [ 85.1432, 27.8021 ], [ 85.215, 27.995 ] ] } },
+{ "type": "Feature", "properties": { "source_id": "S01", "target_id": "S03", "road_type": "SECONDARY", "length_km": 16.8, "status": "ACCESSIBLE", "max_speed_kmh": 40.0 }, "geometry": { "type": "LineString", "coordinates": [ [ 85.1432, 27.8021 ], [ 85.167, 27.915 ] ] } },
+{ "type": "Feature", "properties": { "source_id": "S01", "target_id": "S02", "road_type": "DIRT_TRACK", "length_km": 18.26, "status": "IMPASSABLE", "max_speed_kmh": 25.0 }, "geometry": { "type": "LineString", "coordinates": [ [ 85.1432, 27.8021 ], [ 85.0214, 27.8745 ] ] } },
+{ "type": "Feature", "properties": { "source_id": "S02", "target_id": "S03", "road_type": "SECONDARY", "length_km": 18.39, "status": "ACCESSIBLE", "max_speed_kmh": 40.0 }, "geometry": { "type": "LineString", "coordinates": [ [ 85.0214, 27.8745 ], [ 85.167, 27.915 ] ] } },
+{ "type": "Feature", "properties": { "source_id": "S02", "target_id": "S10", "road_type": "PRIMARY", "length_km": 27.51, "status": "ACCESSIBLE", "max_speed_kmh": 60.0 }, "geometry": { "type": "LineString", "coordinates": [ [ 85.0214, 27.8745 ], [ 85.215, 27.995 ] ] } },
+{ "type": "Feature", "properties": { "source_id": "S03", "target_id": "S10", "road_type": "SECONDARY", "length_km": 12.11, "status": "ACCESSIBLE", "max_speed_kmh": 40.0 }, "geometry": { "type": "LineString", "coordinates": [ [ 85.167, 27.915 ], [ 85.215, 27.995 ] ] } },
+{ "type": "Feature", "properties": { "source_id": "S03", "target_id": "S04", "road_type": "DIRT_TRACK", "length_km": 21.54, "status": "ACCESSIBLE", "max_speed_kmh": 25.0 }, "geometry": { "type": "LineString", "coordinates": [ [ 85.167, 27.915 ], [ 85.312, 27.985 ] ] } },
+{ "type": "Feature", "properties": { "source_id": "S04", "target_id": "S10", "road_type": "SECONDARY", "length_km": 12.43, "status": "ACCESSIBLE", "max_speed_kmh": 40.0 }, "geometry": { "type": "LineString", "coordinates": [ [ 85.312, 27.985 ], [ 85.215, 27.995 ] ] } },
+{ "type": "Feature", "properties": { "source_id": "S04", "target_id": "S06", "road_type": "DIRT_TRACK", "length_km": 24.41, "status": "PARTIALLY_BLOCKED", "max_speed_kmh": 25.0 }, "geometry": { "type": "LineString", "coordinates": [ [ 85.312, 27.985 ], [ 85.495, 27.962 ] ] } },
+{ "type": "Feature", "properties": { "source_id": "S04", "target_id": "S07", "road_type": "PRIMARY", "length_km": 31.83, "status": "ACCESSIBLE", "max_speed_kmh": 60.0 }, "geometry": { "type": "LineString", "coordinates": [ [ 85.312, 27.985 ], [ 85.421, 27.765 ] ] } },
+{ "type": "Feature", "properties": { "source_id": "S05", "target_id": "S06", "road_type": "PRIMARY", "length_km": 19.46, "status": "ACCESSIBLE", "max_speed_kmh": 60.0 }, "geometry": { "type": "LineString", "coordinates": [ [ 85.578, 27.831 ], [ 85.495, 27.962 ] ] } },
+{ "type": "Feature", "properties": { "source_id": "S05", "target_id": "S09", "road_type": "HIGHWAY", "length_km": 36.64, "status": "ACCESSIBLE", "max_speed_kmh": 80.0 }, "geometry": { "type": "LineString", "coordinates": [ [ 85.578, 27.831 ], [ 85.895, 27.792 ] ] } },
+{ "type": "Feature", "properties": { "source_id": "S05", "target_id": "S07", "road_type": "HIGHWAY", "length_km": 22.59, "status": "ACCESSIBLE", "max_speed_kmh": 80.0 }, "geometry": { "type": "LineString", "coordinates": [ [ 85.578, 27.831 ], [ 85.421, 27.765 ] ] } },
+{ "type": "Feature", "properties": { "source_id": "S05", "target_id": "S08", "road_type": "DIRT_TRACK", "length_km": 18.86, "status": "ACCESSIBLE", "max_speed_kmh": 25.0 }, "geometry": { "type": "LineString", "coordinates": [ [ 85.578, 27.831 ], [ 85.714, 27.778 ] ] } },
+{ "type": "Feature", "properties": { "source_id": "S06", "target_id": "S09", "road_type": "SECONDARY", "length_km": 56.91, "status": "ACCESSIBLE", "max_speed_kmh": 40.0 }, "geometry": { "type": "LineString", "coordinates": [ [ 85.495, 27.962 ], [ 85.895, 27.792 ] ] } },
+{ "type": "Feature", "properties": { "source_id": "S06", "target_id": "S07", "road_type": "SECONDARY", "length_km": 29.54, "status": "IMPASSABLE", "max_speed_kmh": 40.0 }, "geometry": { "type": "LineString", "coordinates": [ [ 85.495, 27.962 ], [ 85.421, 27.765 ] ] } },
+{ "type": "Feature", "properties": { "source_id": "S07", "target_id": "S08", "road_type": "PRIMARY", "length_km": 36.86, "status": "ACCESSIBLE", "max_speed_kmh": 60.0 }, "geometry": { "type": "LineString", "coordinates": [ [ 85.421, 27.765 ], [ 85.714, 27.778 ] ] } },
+{ "type": "Feature", "properties": { "source_id": "S08", "target_id": "S09", "road_type": "SECONDARY", "length_km": 23.58, "status": "PARTIALLY_BLOCKED", "max_speed_kmh": 40.0 }, "geometry": { "type": "LineString", "coordinates": [ [ 85.714, 27.778 ], [ 85.895, 27.792 ] ] } }
+]
+}

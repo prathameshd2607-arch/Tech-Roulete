@@ -152,43 +152,98 @@ export default function TacticalMap() {
           </div>
         </div>
 
-        {/* Floating Left HUD Control Panel */}
-        <div className="absolute top-14 left-4 z-[400] w-48 bg-[#0B132B]/85 backdrop-blur-md border border-[#1E293B] rounded-xl p-3 shadow-xl flex flex-col gap-2.5 hidden md:flex">
-          <div className="relative">
-            <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2.5" />
-            <input
-              type="text"
-              placeholder="Search corridor..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-[#131D38] border border-[#1E293B] text-slate-200 placeholder-slate-500 text-xs rounded-lg pl-8 pr-2.5 py-1.5 focus:outline-none focus:border-cyan-500"
-            />
-          </div>
+          {/* Floating Selected Settlement Detail HUD */}
+          {selectedSettlement && (
+            <div className="absolute top-14 left-4 z-[400] w-64 bg-[#0B132B]/95 backdrop-blur-md border border-cyan-500/40 rounded-xl p-3.5 shadow-2xl flex flex-col gap-2.5 animate-in fade-in slide-in-from-left duration-200">
+              <div className="flex items-start justify-between border-b border-slate-800 pb-2">
+                <div>
+                  <div className="text-xs font-bold text-white flex items-center gap-1.5">
+                    <span>{selectedSettlement.name}</span>
+                  </div>
+                  <span className="text-[10px] text-slate-400">Node ID: {selectedSettlement.id}</span>
+                </div>
+                <button
+                  onClick={() => setSelectedSettlement(null)}
+                  className="text-slate-400 hover:text-white text-xs font-bold px-1.5 py-0.5 rounded bg-slate-800/80"
+                >
+                  ✕
+                </button>
+              </div>
 
-          <div className="border-t border-slate-800/80 pt-2 flex flex-col gap-1.5">
-            <div className="flex items-center justify-between text-[11px] text-slate-400">
-              <span>Precipitation</span>
-              <span className="text-cyan-400 font-bold">{rainfall} mm/h</span>
-            </div>
-            <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-gradient-to-r from-emerald-500 via-amber-500 to-red-500"
-                style={{ width: `${Math.min(100, (rainfall / 200) * 100)}%` }}
-              />
-            </div>
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                <div className="bg-[#131D38] p-2 rounded-lg border border-slate-800">
+                  <span className="text-[10px] text-slate-400 block">Risk Status</span>
+                  <span className={`font-bold ${
+                    selectedSettlement.riskLevel === 'CRITICAL' ? 'text-red-400' :
+                    selectedSettlement.riskLevel === 'HIGH' ? 'text-amber-400' : 'text-emerald-400'
+                  }`}>
+                    {selectedSettlement.riskLevel} ({selectedSettlement.riskScore ?? '0.85'})
+                  </span>
+                </div>
+                <div className="bg-[#131D38] p-2 rounded-lg border border-slate-800">
+                  <span className="text-[10px] text-slate-400 block">Population</span>
+                  <span className="font-bold text-slate-200">{selectedSettlement.population?.toLocaleString() ?? '8,400'}</span>
+                </div>
+                <div className="bg-[#131D38] p-2 rounded-lg border border-slate-800">
+                  <span className="text-[10px] text-slate-400 block">Elevation / Slope</span>
+                  <span className="font-bold text-slate-200">{selectedSettlement.elevation}m / {selectedSettlement.slope}°</span>
+                </div>
+                <div className="bg-[#131D38] p-2 rounded-lg border border-slate-800">
+                  <span className="text-[10px] text-slate-400 block">Evac Route</span>
+                  <span className="font-bold text-cyan-400">Bypass Open</span>
+                </div>
+              </div>
 
-            <div className="flex items-center justify-between text-[11px] text-slate-400 pt-1">
-              <span>River Gauge Stage</span>
-              <span className="text-amber-400 font-bold">{riverLevel.toFixed(1)} m</span>
+              <div className="pt-1">
+                <button
+                  onClick={() => setSelectedSettlement(null)}
+                  className="w-full py-1.5 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/40 text-cyan-300 text-[11px] font-bold transition-all cursor-pointer text-center"
+                >
+                  Focus Tactical Corridor
+                </button>
+              </div>
             </div>
-            <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-amber-500"
-                style={{ width: `${Math.min(100, (riverLevel / 7.0) * 100)}%` }}
-              />
+          )}
+
+          {/* Floating Left HUD Control Panel (Shown when no specific settlement is pinned) */}
+          {!selectedSettlement && (
+            <div className="absolute top-14 left-4 z-[400] w-52 bg-[#0B132B]/85 backdrop-blur-md border border-[#1E293B] rounded-xl p-3 shadow-xl flex flex-col gap-2.5 hidden md:flex">
+              <div className="relative">
+                <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2.5" />
+                <input
+                  type="text"
+                  placeholder="Search settlement/node..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full bg-[#131D38] border border-[#1E293B] text-slate-200 placeholder-slate-500 text-xs rounded-lg pl-8 pr-2.5 py-1.5 focus:outline-none focus:border-cyan-500"
+                />
+              </div>
+
+              <div className="border-t border-slate-800/80 pt-2 flex flex-col gap-1.5">
+                <div className="flex items-center justify-between text-[11px] text-slate-400">
+                  <span>Precipitation</span>
+                  <span className="text-cyan-400 font-bold">{rainfall} mm/h</span>
+                </div>
+                <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-gradient-to-r from-emerald-500 via-amber-500 to-red-500"
+                    style={{ width: `${Math.min(100, (rainfall / 200) * 100)}%` }}
+                  />
+                </div>
+
+                <div className="flex items-center justify-between text-[11px] text-slate-400 pt-1">
+                  <span>River Gauge Stage</span>
+                  <span className="text-amber-400 font-bold">{riverLevel.toFixed(1)} m</span>
+                </div>
+                <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-amber-500"
+                    style={{ width: `${Math.min(100, (riverLevel / 7.0) * 100)}%` }}
+                  />
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          )}
 
         {/* Floating Right KPI Quick Chips */}
         <div className="absolute top-14 right-4 z-[400] flex flex-col gap-2 hidden lg:flex">
@@ -288,11 +343,11 @@ export default function TacticalMap() {
           scrollWheelZoom={false}
           className="w-full h-full"
         >
-          {/* CartoDB Dark Matter Basemap */}
+          {/* ESRI World Dark Gray Canvas Basemap (Free, No API Key / Watermark) */}
           <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-            url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-            maxZoom={19}
+            attribution="Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ"
+            url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}"
+            maxZoom={16}
           />
 
           {/* Background Arterial Network */}
@@ -384,43 +439,54 @@ export default function TacticalMap() {
           />
 
           {/* Settlement Circle Markers */}
-          {settlements.map((s) => {
-            let fillColor = '#10B981';
-            let radius = 6;
-            if (s.riskLevel === 'CRITICAL') {
-              fillColor = '#EF4444';
-              radius = 9;
-            } else if (s.riskLevel === 'HIGH') {
-              fillColor = '#F59E0B';
-              radius = 8;
-            } else if (s.riskLevel === 'MEDIUM') {
-              fillColor = '#FBBF24';
-              radius = 7;
-            }
+          {settlements
+            .filter((s) =>
+              !searchQuery ||
+              s.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+              s.id.toLowerCase().includes(searchQuery.toLowerCase())
+            )
+            .map((s) => {
+              const isSelected = selectedSettlement?.id === s.id;
+              let fillColor = '#10B981';
+              let radius = 6;
+              if (s.riskLevel === 'CRITICAL') {
+                fillColor = '#EF4444';
+                radius = 9;
+              } else if (s.riskLevel === 'HIGH') {
+                fillColor = '#F59E0B';
+                radius = 8;
+              } else if (s.riskLevel === 'MEDIUM') {
+                fillColor = '#FBBF24';
+                radius = 7;
+              }
 
-            return (
-              <CircleMarker
-                key={s.id}
-                center={[s.lat, s.lng]}
-                radius={radius}
-                pathOptions={{
-                  fillColor,
-                  fillOpacity: 0.9,
-                  color: '#FFFFFF',
-                  weight: 1.5,
-                }}
-                eventHandlers={{
-                  click: () => setSelectedSettlement(s),
-                }}
-              >
-                <Tooltip direction="top" offset={[0, -10]} opacity={0.95}>
-                  <div className="text-xs font-bold font-sans">
-                    {s.name} ({s.riskLevel}) - Pop: {s.population.toLocaleString()}
-                  </div>
-                </Tooltip>
-              </CircleMarker>
-            );
-          })}
+              if (isSelected) {
+                radius += 3;
+              }
+
+              return (
+                <CircleMarker
+                  key={s.id}
+                  center={[s.lat, s.lng]}
+                  radius={radius}
+                  pathOptions={{
+                    fillColor,
+                    fillOpacity: isSelected ? 1.0 : 0.88,
+                    color: isSelected ? '#06B6D4' : '#FFFFFF',
+                    weight: isSelected ? 3 : 1.5,
+                  }}
+                  eventHandlers={{
+                    click: () => setSelectedSettlement(s),
+                  }}
+                >
+                  <Tooltip direction="top" offset={[0, -10]} opacity={0.95}>
+                    <div className="text-xs font-bold font-sans">
+                      {s.name} ({s.riskLevel}) - Pop: {s.population.toLocaleString()}
+                    </div>
+                  </Tooltip>
+                </CircleMarker>
+              );
+            })}
         </MapContainer>
       </div>
 

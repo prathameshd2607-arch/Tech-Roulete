@@ -120,6 +120,7 @@ export default function CommandDashboard() {
         {/* Settlement Items List */}
         <div className="divide-y divide-[#1E293B]">
           {prioritySettlements.map((settlement, index) => {
+            const isSelected = selectedSettlement?.id === settlement.id;
             let badgeColorClass = 'text-[#FBBF24]';
             if (settlement.riskLevel === 'CRITICAL') {
               badgeColorClass = 'text-[#EF4444] font-bold';
@@ -130,15 +131,17 @@ export default function CommandDashboard() {
             return (
               <div
                 key={settlement.id}
-                onClick={() => setSelectedSettlement(settlement)}
-                className="px-5 py-3.5 flex items-center justify-between hover:bg-slate-800/40 transition-colors cursor-pointer group"
+                onClick={() => setSelectedSettlement(isSelected ? null : settlement)}
+                className={`px-5 py-3.5 flex items-center justify-between transition-all cursor-pointer group ${
+                  isSelected ? 'bg-cyan-950/40 border-l-4 border-l-[#06B6D4]' : 'hover:bg-slate-800/40'
+                }`}
               >
                 <div className="flex items-center gap-3">
-                  <span className="text-xs font-bold text-slate-400">
+                  <span className={`text-xs font-bold ${isSelected ? 'text-cyan-400' : 'text-slate-400'}`}>
                     {index + 1}.
                   </span>
                   <div>
-                    <span className="text-sm font-semibold text-slate-200 group-hover:text-white transition-colors">
+                    <span className={`text-sm font-semibold transition-colors ${isSelected ? 'text-cyan-300 font-bold' : 'text-slate-200 group-hover:text-white'}`}>
                       {settlement.shortName || settlement.name}
                     </span>
                     <span className="text-xs text-slate-400 ml-2 hidden sm:inline">
@@ -147,7 +150,7 @@ export default function CommandDashboard() {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1.5">
                   <span className={`text-xs uppercase tracking-wider font-extrabold ${badgeColorClass}`}>
                     {settlement.riskLevel}
                   </span>

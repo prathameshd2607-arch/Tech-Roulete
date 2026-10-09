@@ -1,6 +1,8 @@
-import React, { createContext, useContext, useState, useMemo } from 'react';
+import React, { createContext, useContext, useState, useMemo, useEffect } from 'react';
 
 const EmergencyContext = createContext();
+
+const API_BASE_URL = 'http://localhost:8000';
 
 // Initial Realistic Settlements Data (Central Himalayan valley context)
 const INITIAL_SETTLEMENTS = [
@@ -33,6 +35,7 @@ export function EmergencyProvider({ children }) {
   const [baselineThreshold, setBaselineThreshold] = useState(50); // mm/hr
   const [reports, setReports] = useState(INITIAL_REPORTS);
   const [selectedSettlement, setSelectedSettlement] = useState(null);
+  const [isBackendConnected, setIsBackendConnected] = useState(false);
   const [dataLayers, setDataLayers] = useState({
     liveCameras: true,
     precipitationRadar: true,
@@ -40,7 +43,24 @@ export function EmergencyProvider({ children }) {
     activeUnits: false,
   });
 
-  // Dynamic calculations based on live sliders & scenarios
+  // Attempt to check if FastAPI backend is online, seamlessly fallback if not
+  useEffect(() => {
+    const checkBackend = async () => {
+      try {
+        const res = await fetch(`${API_BASE_URL}/health`, { method: 'GET', signal: AbortSignal.timeout(1500) });
+        if (res.ok) {
+          setIsBackendConnected(true);
+        } else {
+          setIsBackendConnected(false);
+        }
+      } catch (err) {
+        setIsBackendConnected(false);
+      }
+    };
+    checkBackend();
+  }, []);
+
+  // Dynamic calculations based on live sliders & scenarios (Offline Resilient)
   const dynamicState = useMemo(() => {
     const rainFactor = rainfall / 100;
     const riverFactor = riverLevel / 4.0;
@@ -96,34 +116,66 @@ export function EmergencyProvider({ children }) {
     };
   }, [rainfall, riverLevel, scenario, reports.length]);
 
-  const applyScenario = (scenarioName) => {
+  const applyScenario = async (scenarioName) => {
     setScenario(scenarioName);
+    let newRain = 75;
+    let newRiver = 4.8;
+
     if (scenarioName === 'HEAVY_RAIN') {
-      setRainfall(135);
-      setRiverLevel(5.2);
+      newRain = 135;
+      newRiver = 5.2;
     } else if (scenarioName === 'ROAD_BLOCK') {
-      setRainfall(80);
-      setRiverLevel(4.5);
+      newRain = 80;
+      newRiver = 4.5;
     } else if (scenarioName === 'EXTREME_FLOOD') {
-      setRainfall(185);
-      setRiverLevel(6.4);
-    } else {
-      setRainfall(75);
-      setRiverLevel(4.8);
+      newRain = 185;
+      newRiver = 6.4;
+    }
+
+    setRainfall(newRain);
+    setRiverLevel(newRiver);
+
+    // If backend is active, also notify the backend API
+    try {
+      await fetch(`${API_BASE_URL}/api/admin/config/rainfall`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ rainfall_rate_mm_hr: newRain, global_multiplier: 1.0 }),
+        signal: AbortSignal.timeout(2000),
+      });
+    } catch (e) {
+      // Graceful offline fallback
     }
   };
 
-  const addReport = (newReport) => {
-    setReports((prev) => [
-      {
-        id: `REP-${String(prev.length + 1).padStart(2, '0')}`,
-        time: 'Just now',
-        status: 'VERIFIED',
-        reliability: 0.96,
-        ...newReport,
-      },
-      ...prev,
-    ]);
+  const addReport = async (newReport) => {
+    const createdReport = {
+      id: `REP-${String(reports.length + 1).padStart(2, '0')}`,
+      time: 'Just now',
+      status: 'VERIFIED',
+      reliability: 0.96,
+      ...newReport,
+    };
+
+    setReports((prev) => [createdReport, ...prev]);
+
+    // Attempt backend sync
+    try {
+      await fetch(`${API_BASE_URL}/api/responder/field-report`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          reporter_id: 'WEB-FIELD-CLIENT',
+          edge: ['S01', 'S10'],
+          hazard_type: newReport.type || 'LANDSLIDE',
+          description: newReport.text || 'Citizen hazard observation',
+          user_reliability_score: 0.98,
+        }),
+        signal: AbortSignal.timeout(2000),
+      });
+    } catch (e) {
+      // Graceful offline fallback
+    }
   };
 
   const toggleDataLayer = (layerKey) => {
@@ -133,11 +185,17 @@ export function EmergencyProvider({ children }) {
     }));
   };
 
-  const resetAll = () => {
+  const resetAll = async () => {
     setRainfall(75);
     setRiverLevel(4.8);
     setScenario('DEFAULT');
     setBaselineThreshold(50);
+
+    try {
+      await fetch(`${API_BASE_URL}/api/v1/alerts`, { method: 'DELETE', signal: AbortSignal.timeout(1000) });
+    } catch (e) {
+      // Offline fallback
+    }
   };
 
   return (
@@ -160,6 +218,7 @@ export function EmergencyProvider({ children }) {
         dataLayers,
         toggleDataLayer,
         resetAll,
+        isBackendConnected,
         ...dynamicState,
       }}
     >

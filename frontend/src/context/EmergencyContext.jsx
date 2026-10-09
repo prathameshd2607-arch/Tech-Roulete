@@ -4,27 +4,27 @@ const EmergencyContext = createContext();
 
 const API_BASE_URL = 'http://localhost:8000';
 
-// Initial Realistic Settlements Data (Central Himalayan valley context)
+// Initial Realistic Settlements Data (Trishuli Basin / Nuwakot District, Nepal)
 const INITIAL_SETTLEMENTS = [
-  { id: 'S01', name: 'Settlement A (Trishuli Valley)', shortName: 'Settlement A', lat: 27.8021, lng: 85.1432, population: 12500, elevation: 620, slope: 8.5, baseRisk: 0.88 },
-  { id: 'S02', name: 'Settlement B (Dhading Ridge)', shortName: 'Settlement B', lat: 27.8745, lng: 85.0214, population: 8400, elevation: 1420, slope: 18.2, baseRisk: 0.65 },
-  { id: 'S03', name: 'Settlement C (Nuwakot Hilltop)', shortName: 'Settlement C', lat: 27.9150, lng: 85.1670, population: 6200, elevation: 1780, slope: 24.0, baseRisk: 0.52 },
-  { id: 'S04', name: 'Settlement D (Langtang Foothills)', shortName: 'Settlement D', lat: 27.9850, lng: 85.3120, population: 3100, elevation: 2850, slope: 38.5, baseRisk: 0.94 },
-  { id: 'S05', name: 'Settlement E (Melamchi Basin)', shortName: 'Settlement E', lat: 27.8310, lng: 85.5780, population: 7800, elevation: 890, slope: 12.0, baseRisk: 0.45 },
-  { id: 'S06', name: 'Settlement F (Helambu Highland)', shortName: 'Settlement F', lat: 27.9620, lng: 85.4950, population: 2400, elevation: 3120, slope: 41.2, baseRisk: 0.91 },
-  { id: 'S07', name: 'Settlement G (Sundarijal Outpost)', shortName: 'Settlement G', lat: 27.7650, lng: 85.4210, population: 4500, elevation: 1550, slope: 19.8, baseRisk: 0.38 },
-  { id: 'S08', name: 'Settlement H (Chautara Summit)', shortName: 'Settlement H', lat: 27.7780, lng: 85.7140, population: 9200, elevation: 1620, slope: 22.4, baseRisk: 0.42 },
-  { id: 'S09', name: 'Settlement I (Bahrabise Gorge)', shortName: 'Settlement I', lat: 27.7920, lng: 85.8950, population: 5600, elevation: 980, slope: 33.0, baseRisk: 0.85 },
-  { id: 'S10', name: 'Settlement J (Gosaikunda Pass Junction)', shortName: 'Settlement J', lat: 27.9950, lng: 85.2150, population: 1200, elevation: 3190, slope: 39.7, baseRisk: 0.96 },
-  { id: 'S11', name: 'Settlement K (Devighat Confluence)', shortName: 'Settlement K', lat: 27.8420, lng: 85.1120, population: 3800, elevation: 580, slope: 6.2, baseRisk: 0.72 },
-  { id: 'S12', name: 'Settlement L (Battar Highland)', shortName: 'Settlement L', lat: 27.8900, lng: 85.1850, population: 4900, elevation: 950, slope: 14.5, baseRisk: 0.58 },
+  { id: 'S01', name: 'Settlement A (Trishuli Valley)', shortName: 'Settlement A', lat: 27.9012, lng: 85.1325, population: 12500, elevation: 620, slope: 8.5, baseRisk: 0.88, provenance: 'LIVE' },
+  { id: 'S02', name: 'Settlement B (Dhading Ridge)', shortName: 'Settlement B', lat: 27.8540, lng: 85.1010, population: 8400, elevation: 1420, slope: 18.2, baseRisk: 0.65, provenance: 'LIVE' },
+  { id: 'S03', name: 'Settlement C (Nuwakot Hilltop)', shortName: 'Settlement C', lat: 27.9150, lng: 85.1680, population: 6200, elevation: 1780, slope: 24.0, baseRisk: 0.52, provenance: 'SIMULATED' },
+  { id: 'S04', name: 'Settlement D (Langtang Foothills)', shortName: 'Settlement D', lat: 28.0200, lng: 85.2300, population: 3100, elevation: 2850, slope: 38.5, baseRisk: 0.94, provenance: 'LIVE' },
+  { id: 'S05', name: 'Settlement E (Melamchi Basin)', shortName: 'Settlement E', lat: 27.8310, lng: 85.3780, population: 7800, elevation: 890, slope: 12.0, baseRisk: 0.45, provenance: 'HISTORICAL' },
+  { id: 'S06', name: 'Settlement F (Helambu Highland)', shortName: 'Settlement F', lat: 27.9620, lng: 85.2950, population: 2400, elevation: 3120, slope: 41.2, baseRisk: 0.91, provenance: 'SIMULATED' },
+  { id: 'S07', name: 'Settlement G (Sundarijal Outpost)', shortName: 'Settlement G', lat: 27.7850, lng: 85.2210, population: 4500, elevation: 1550, slope: 19.8, baseRisk: 0.38, provenance: 'LIVE' },
+  { id: 'S08', name: 'Settlement H (Chautara Summit)', shortName: 'Settlement H', lat: 27.8780, lng: 85.3140, population: 9200, elevation: 1620, slope: 22.4, baseRisk: 0.42, provenance: 'HISTORICAL' },
+  { id: 'S09', name: 'Settlement I (Bahrabise Gorge)', shortName: 'Settlement I', lat: 27.7920, lng: 85.1950, population: 5600, elevation: 980, slope: 33.0, baseRisk: 0.85, provenance: 'SIMULATED' },
+  { id: 'S10', name: 'Settlement J (Gosaikunda Pass Junction)', shortName: 'Settlement J', lat: 27.9950, lng: 85.2150, population: 1200, elevation: 3190, slope: 39.7, baseRisk: 0.96, provenance: 'LIVE' },
+  { id: 'S11', name: 'Settlement K (Devighat Confluence)', shortName: 'Settlement K', lat: 27.8720, lng: 85.1220, population: 3800, elevation: 580, slope: 6.2, baseRisk: 0.72, provenance: 'LIVE' },
+  { id: 'S12', name: 'Settlement L (Battar Highland)', shortName: 'Settlement L', lat: 27.8920, lng: 85.1550, population: 4900, elevation: 950, slope: 14.5, baseRisk: 0.58, provenance: 'SIMULATED' },
 ];
 
 const INITIAL_REPORTS = [
-  { id: 'REP-01', location: 'Trishuli Bridge corridor', type: 'ROAD_WASHOUT', text: 'Bridge approach submerged under 1.2m rushing floodwater.', time: '3 min ago', reliability: 0.98, status: 'VERIFIED' },
-  { id: 'REP-02', location: 'Dhading-Nuwakot Ridge Pass', type: 'LANDSLIDE', text: 'Active boulder fall and slope slip covering uphill lanes.', time: '11 min ago', reliability: 0.92, status: 'VERIFIED' },
-  { id: 'REP-03', location: 'Melamchi Low Bridge', type: 'FLASH_FLOOD', text: 'River stage surpassed red danger mark. Culvert cracking.', time: '24 min ago', reliability: 0.89, status: 'MONITORING' },
-  { id: 'REP-04', location: 'Langtang South Access Road', type: 'MUDSLIDE', text: 'Tree collapse and mud flow on highway single-lane passable.', time: '40 min ago', reliability: 0.85, status: 'IN_PROGRESS' },
+  { id: 'REP-01', location: 'Trishuli Bridge corridor', type: 'ROAD_WASHOUT', text: 'Bridge approach submerged under 1.2m rushing floodwater.', time: '3 min ago', reliability: 0.98, status: 'VERIFIED', provenance: 'LIVE' },
+  { id: 'REP-02', location: 'Dhading-Nuwakot Ridge Pass', type: 'LANDSLIDE', text: 'Active boulder fall and slope slip covering uphill lanes.', time: '11 min ago', reliability: 0.92, status: 'VERIFIED', provenance: 'LIVE' },
+  { id: 'REP-03', location: 'Melamchi Low Bridge', type: 'FLASH_FLOOD', text: 'River stage surpassed red danger mark. Culvert cracking.', time: '24 min ago', reliability: 0.89, status: 'MONITORING', provenance: 'HISTORICAL' },
+  { id: 'REP-04', location: 'Langtang South Access Road', type: 'MUDSLIDE', text: 'Tree collapse and mud flow on highway single-lane passable.', time: '40 min ago', reliability: 0.85, status: 'IN_PROGRESS', provenance: 'SIMULATED' },
 ];
 
 export function EmergencyProvider({ children }) {

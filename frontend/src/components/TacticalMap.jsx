@@ -63,6 +63,7 @@ export default function TacticalMap() {
     dataLayers,
     toggleDataLayer,
     setSelectedSettlement,
+    selectedSettlement,
   } = useEmergency();
 
   const [searchQuery, setSearchQuery] = useState('');

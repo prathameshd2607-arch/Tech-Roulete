@@ -24,6 +24,7 @@ export default function CommandDashboard() {
     reportsCount,
     aiRiskLevel,
     setSelectedSettlement,
+    selectedSettlement,
   } = useEmergency();
 
   // Top 3 Priority Settlements for the bottom panel list

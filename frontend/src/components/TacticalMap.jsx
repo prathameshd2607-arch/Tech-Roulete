@@ -203,6 +203,7 @@ export default function TacticalMap() {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [roadFeatures, setRoadFeatures] = useState(REAL_ROADS_DATA);
+  const [mapTileStyle, setMapTileStyle] = useState('hybrid'); // 'hybrid' | 'dark_roadmap'
 
   // Target District Center Coordinates: Trishuli Basin / Nuwakot District, Nepal
   const districtCenter = [27.9000, 85.1500];
@@ -439,11 +440,40 @@ export default function TacticalMap() {
           </div>
         </div>
 
-        {/* Floating Bottom Right: Data Layers Panel */}
-        <div className="absolute bottom-4 right-4 z-[400] bg-[#0B132B]/85 backdrop-blur-md border border-[#1E293B] rounded-xl p-3 shadow-xl hidden md:flex flex-col gap-1.5 w-44">
-          <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5 pb-1 border-b border-slate-800">
-            <Layers className="w-3 h-3 text-cyan-400" />
-            Data Layers
+        {/* Floating Bottom Right: Data Layers Panel & Basemap Switcher */}
+        <div className="absolute bottom-4 right-4 z-[400] bg-[#0B132B]/90 backdrop-blur-md border border-[#1E293B] rounded-xl p-3 shadow-xl hidden md:flex flex-col gap-2 w-52">
+          <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center justify-between pb-1 border-b border-slate-800">
+            <span className="flex items-center gap-1.5">
+              <Layers className="w-3 h-3 text-cyan-400" />
+              Basemap Layer
+            </span>
+          </div>
+
+          <div className="grid grid-cols-2 gap-1 bg-[#131D38] p-1 rounded-lg border border-slate-800">
+            <button
+              onClick={() => setMapTileStyle('hybrid')}
+              className={`px-2 py-1 rounded text-[10px] font-bold transition-all cursor-pointer ${
+                mapTileStyle === 'hybrid'
+                  ? 'bg-cyan-500 text-slate-950 shadow'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              Google Hybrid
+            </button>
+            <button
+              onClick={() => setMapTileStyle('dark_roadmap')}
+              className={`px-2 py-1 rounded text-[10px] font-bold transition-all cursor-pointer ${
+                mapTileStyle === 'dark_roadmap'
+                  ? 'bg-cyan-500 text-slate-950 shadow'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              Dark Roadmap
+            </button>
+          </div>
+
+          <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5 pt-1 border-t border-slate-800">
+            Data Feeds
           </div>
           <label className="flex items-center gap-2 text-xs text-slate-300 cursor-pointer hover:text-white">
             <input
@@ -486,7 +516,7 @@ export default function TacticalMap() {
         {/* Floating Bottom Left: Watermark / Attribution */}
         <div className="absolute bottom-3 left-4 z-[400]">
           <div className="px-2 py-0.5 rounded bg-black/60 backdrop-blur-sm border border-slate-800 text-[10px] text-slate-400 font-mono">
-            AQUASHIELD v2.4 • Trishuli Basin GIS
+            AQUASHIELD v2.4 • Google Maps Basemap
           </div>
         </div>
 
@@ -495,17 +525,27 @@ export default function TacticalMap() {
           center={districtCenter}
           zoom={11}
           minZoom={9}
-          maxZoom={15}
+          maxZoom={18}
           scrollWheelZoom={false}
           className="w-full h-full"
         >
-          {/* ESRI World Dark Gray Canvas Basemap (Free, No API Key / Watermark) */}
-          <TileLayer
-            attribution="Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ"
-            url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}"
-            maxZoom={15}
-            minZoom={9}
-          />
+          {/* Google Maps Base Layer */}
+          {mapTileStyle === 'hybrid' ? (
+            <TileLayer
+              key="google-hybrid"
+              url="https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}"
+              attribution="&copy; Google Maps"
+              maxZoom={20}
+            />
+          ) : (
+            <TileLayer
+              key="google-dark-roadmap"
+              url="https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}"
+              attribution="&copy; Google Maps"
+              className="google-map-dark"
+              maxZoom={20}
+            />
+          )}
 
           {/* Flooded Inundation Zone Hatching Polygon */}
           <Polygon
